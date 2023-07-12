@@ -1,0 +1,27 @@
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.compute import ComputeManagementClient
+import json
+
+# Authenticate using DefaultAzureCredential
+credential = DefaultAzureCredential()
+subscription_id = "55897f63-390a-4bac-ac94-dcdc6b79ba2a"
+
+# Create a ComputeManagementClient
+compute_client = ComputeManagementClient(credential, subscription_id)
+
+# Retrieve instance metadata
+instance_paged = compute_client.virtual_machines.list_all()
+
+# Extract metadata of the first instance
+instance = next(instance_paged)
+instance_metadata = instance.as_dict()
+
+# JSON formatted output
+json_output = json.dumps(instance_metadata, indent=4)
+
+# Save JSON output to a file
+with open("instance_metadata.json", "w") as file:
+        file.write(json_output)
+
+        # Print a confirmation message
+        print("Instance metadata saved to instance_metadata.json")
