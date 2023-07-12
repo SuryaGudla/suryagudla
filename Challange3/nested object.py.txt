@@ -1,0 +1,23 @@
+def get_value_from_nested_object(obj, key):
+    keys = key.split('/')
+    value = obj
+    for k in keys:
+        if isinstance(value, dict) and k in value:
+           value = value[k]
+        else:
+            return None
+    return value
+# Prompt the user for object and key inputs
+object_str = input("Enter the object as a dictionary: ")
+key = input("Enter the key (e.g., a/b/c): ")
+# Convert the object string to a dictionary
+try:
+    object1 = eval(object_str)
+except:
+    print("Invalid object input!")
+    exit()
+# Retrieve the value from the nested object
+value = get_value_from_nested_object(object1, key)
+
+# Print the output
+print(value)
